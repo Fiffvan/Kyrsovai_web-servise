@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты распознавания</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .error {
+            text-align: center;
+            color: #b02a37;
+            font-size: 20px;
+            background: #fdecea;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .cars-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .car-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: transform 0.15s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .car-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .car-index {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 6px 0;
+        }
+
+        .confidence {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background 0.15s ease;
+        }
+
+        .back-btn:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Результаты распознавания</h1>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% else %}
+        <div class="subtitle">
+            Найдено автомобилей: <b>{{ results | length }}</b>
+        </div>
+
+        <div class="cars-container">
+            {% for car in results %}
+                <div class="car-card">
+                    <div class="car-index">Автомобиль №{{ car.index }}</div>
+                    <img src="{{ car.image_url }}">
+                    <div class="brand">{{ car.class_name }}</div>
+                    <div class="confidence">Уверенность: {{ car.confidence }}%</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="footer">
+        <a href="/" class="back-btn">← Назад</a>
+    </div>
+
+</div>
+
+</body>
+</html>

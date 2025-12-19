@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Распознавание автомобилей</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 14px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .status-loaded {
+            background: #e6f4ea;
+            color: #1e7e34;
+        }
+
+        .status-not-loaded {
+            background: #fdecea;
+            color: #b02a37;
+        }
+
+        .info {
+            background: #f8f9fb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .info p {
+            margin: 8px 0;
+        }
+
+        .upload-form input[type="file"] {
+            margin: 20px 0;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: #fff;
+            padding: 14px 32px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,123,255,0.35);
+        }
+
+        .hint {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Распознавание автомобилей</h1>
+    <div class="subtitle">YOLOv8 + ResNet50</div>
+
+    {% if model_loaded %}
+        <div class="status status-loaded">
+            ✅ Модель загружена · Классов: {{ classes|length }}
+        </div>
+    {% else %}
+        <div class="status status-not-loaded">
+            ❌ Модель не загружена
+        </div>
+    {% endif %}
+
+    <div class="info">
+        <p>📷 Загрузите изображение с автомобилями</p>
+        <p>🚗 Система автоматически найдёт все машины на фото</p>
+        <p>🏷️ Для каждой машины будет определена марка</p>
+    </div>
+
+    <form class="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <br>
+        <button type="submit" class="upload-btn">Распознать</button>
+    </form>
+
+    <div class="hint">
+        Лучшие результаты достигаются на изображениях с чётким видом автомобиля
+    </div>
+</div>
+
+</body>
+</html>
